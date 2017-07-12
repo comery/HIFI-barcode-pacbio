@@ -14,7 +14,7 @@ $ git clone https://github.com/comery/HIFI-barcode-hiseq.git
 Go to website https://github.com/comery/HIFI-barcode-hiseq and click 'Download ZIP'
 ### Requirements 
 #### (1) software 
- - PicBio smrtanalysis | http://www.pacb.com/products-and-services/analytical-software/smrt-analysis/
+- PicBio smrtanalysis | http://www.pacb.com/products-and-services/analytical-software/smrt-analysis/
 
 #### (2) programming language
  - standard perl
@@ -41,7 +41,8 @@ Go to website https://github.com/comery/HIFI-barcode-hiseq and click 'Download Z
 #### (3) index(barcodes for identifying samples) list
  -  experiment_data/index.xls
 	index.xls like this:
-			001     AAAGC
+			
+            001     AAAGC
 			002     AACAG
 			003     AACCT
 			004     AACTC
@@ -49,11 +50,11 @@ Go to website https://github.com/comery/HIFI-barcode-hiseq and click 'Download Z
 			006     AAGGT
 			007     AAGTG
 			008     AATGG
-		... ...
+			... ...
 #### (4) samples_location.tab
 - samples name and corresponding location in 96-cell plate
 	like this:
-	1	A01
+1	A01
 2	B01
 3	C01
 4	D01
@@ -73,7 +74,7 @@ setup_path='/path/PicBio/smrtanalysis/current/etc/setup.sh'
 
 #### step 1 extract CCS from h5 files
 Input:
-	- my_inputs.fofn
+- my_inputs.fofn
 
 Output:
 - log
@@ -103,10 +104,10 @@ smrtpipe.py --params=settings.xml xml:input.xml
 
 #### step 2 extract passes number from CCS h5 files
 Input:
-	- /data/*.ccs.h5 
+- /data/*.ccs.h5 
 
 Output:
-	- ccs_passes.lst
+- ccs_passes.lst
 
 run:
 ```bash
@@ -115,11 +116,11 @@ $ python bin/ccs_passes.py  data/*.ccs.h5 >ccs_passes.lst
 
 #### step 3 filtering CCS by passes number (>15)
 Input:
-	- ccs_passes.lst
-	- data/reads_of_insert.fasta
+- ccs_passes.lst
+- data/reads_of_insert.fasta
 
 Output:
-	- ccs_passes_15.fa
+- ccs_passes_15.fa
 
 run:
 ```bash
@@ -129,7 +130,7 @@ $ perl ./bin/fish_ccs.pl ccs_passes_15.lst data/reads_of_insert.fasta >ccs_passe
 #### step 4 assigning CCS  to samples by index
 Input:
 - experiment_data/primer.fa
--  experiment_data/index.xls
+- experiment_data/index.xls
 - ccs_passes_15.fa
 
 Output: "outdir" name is up to you, here is 02.assignment/
@@ -163,7 +164,7 @@ $ perl ../bin/change_name-location.pl cluster.top1.fas >hifi-barcode-pacbio.clus
 
 ALL DONE!
 	
-So, hifi-barcode-pacbio.cluster.top1.fa is final result!
+So, "hifi-barcode-pacbio.cluster.top1.fa" is final result!
 
 -------------------------------------------------------------------------------------------
 ### CONTACT US

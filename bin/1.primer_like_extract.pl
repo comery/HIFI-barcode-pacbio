@@ -2,7 +2,7 @@
 
 =head1 Name
 	
-	./primer_like_extract.pl for HIFI barcodes pacbio data
+	./1.primer_like_extract.pl for HIFI barcodes pacbio data
 
 =head1 Description
 	assigning CCS(circular consensus sequence) to sample by index which is 
@@ -43,8 +43,8 @@
 
 =head1 Exmple
 
-	perl ./primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa -o outdir  -log log_file &
-	perl ./primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa --gap_punish 4 --m 2 -cm 4 -cg 2 -o dir  -log log_file
+	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa -o outdir  -log log_file &
+	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa --gap_punish 4 --m 2 -cm 4 -cg 2 -o dir  -log log_file
 	
 	primer.txt may be like this:
 	

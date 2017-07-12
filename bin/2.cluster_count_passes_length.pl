@@ -1,11 +1,29 @@
 #!/usr/bin/perl -w
 =head1 Name
 	
-	cluster_lens_count.pl -cluster ccs sequence by length and count and codon check
+	2.cluster_count_passes_length.pl -cluster ccs sequence by count and passes number codon check
+
+=head1 Description
+
+	After assigning ccs to each samples, obviously, it is hard to get only single uniq sequence of 
+	each sample, because of PCR errors and Pacbio sequencing errors. so clustering ccs is necessary to
+	find the real and rigth COI barcode sequence.
+
+	for each sample, sequences with a length range out of 658 +/- 6bp were removed and the remaining unique 
+	sequences were sorted by pass numbers and identical sequences were clustered together;
+	and then, unique sequence of the most abundant cluster was retained as the correct barcode sequence for each sample.
+
+	Optionally, you can check whether ccs could be translated into rigth protein using a given genetic codon table
+	but, I suggest you do this work after clustering manually.
+
+=head1 Version
+
+	Author: ChentaoYang, yangchentao@genomics.cn
+	Version: 1.0,  Date:2017-06-01
 
 =head1 Usage
 	
-	perl cluster_lens_count.pl  [option]
+	perl 2.cluster_count_passes_length.pl  [option]
 	
 	--ccs <str> all ccs fasta
 	-pattern <str> check.ccs.fa.log

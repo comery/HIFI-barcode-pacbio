@@ -35,11 +35,13 @@ Go to website https://github.com/comery/HIFI-barcode-hiseq and click 'Download Z
  - 01.data/*.h5 ( linkage will be available soon )
 #### (2) primers list
  -	experiment_data/primer.lst  
+	
 	for     GGTCAACAAATCATAAAGATATTGG
 	rev     TAAACTTCAGGGTGACCAAAAAATCA
 
 #### (3) index(barcodes for identifying samples) list
  -  experiment_data/index.xls  
+	
 	001     AAAGC
 	002     AACAG
 	003     AACCT
@@ -49,6 +51,7 @@ Go to website https://github.com/comery/HIFI-barcode-hiseq and click 'Download Z
 
 #### (4) samples_location.tab
 - samples name and corresponding location in 96-cell plate  
+	
 	1	A01
 	2	B01
 	3	C01

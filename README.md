@@ -36,41 +36,36 @@ Go to website https://github.com/comery/HIFI-barcode-hiseq and click 'Download Z
 #### (2) primers list
  -	experiment_data/primer.lst
 	primer.lst  like this:
-			for     GGTCAACAAATCATAAAGATATTGG
-			rev     TAAACTTCAGGGTGACCAAAAAATCA
+	for     GGTCAACAAATCATAAAGATATTGG
+	rev     TAAACTTCAGGGTGACCAAAAAATCA
+
 #### (3) index(barcodes for identifying samples) list
  -  experiment_data/index.xls
 	index.xls like this:
-			
-            001     AAAGC
-			002     AACAG
-			003     AACCT
-			004     AACTC
-			005     AAGCA
-			006     AAGGT
-			007     AAGTG
-			008     AATGG
-			... ...
+	001     AAAGC
+	002     AACAG
+	003     AACCT
+	004     AACTC
+	005     AAGCA
+	...		.....
+
 #### (4) samples_location.tab
 - samples name and corresponding location in 96-cell plate
 	like this:
-1	A01
-2	B01
-3	C01
-4	D01
-5	E01
-6	F01
-7	G01
-8	H01
-9	A02
-10	B02
-... ...
+	1	A01
+	2	B01
+	3	C01
+	4	D01
+	5	E01
+	.	...
+
 ### Overview of steps
 
 If you installed PacBio smrtanalysis, I suppose you get the  file path of setup.sh,
 more about Pacbio Data : http://www.pacb.com/wp-content/uploads/SMRT-Link-User-Guide-v4.0.0.pdf
-e.g.
-setup_path='/path/PicBio/smrtanalysis/current/etc/setup.sh'
+
+e.g:
+	setup_path='/path/PicBio/smrtanalysis/current/etc/setup.sh'
 
 #### step 1 extract CCS from h5 files
 Input:
@@ -89,9 +84,8 @@ Output:
 - workflow
 - results
 
-my_inputs.fofn contains files list of Pacbio H5 file in 01.data/
- like this:
-			./01.data/m170506_092957_42199_c101149142550000001823255607191735_s1_p0.1.bax.h5
+my_inputs.fofn contains files list of Pacbio H5 file in 01.data/, like this:
+	./01.data/m170506_092957_42199_c101149142550000001823255607191735_s1_p0.1.bax.h5
 	./01.data/m170506_092957_42199_c101149142550000001823255607191735_s1_p0.bas.h5
 	./01.data/m170506_092957_42199_c101149142550000001823255607191735_s1_p0.3.bax.h5
 	./01.data/m170506_092957_42199_c101149142550000001823255607191735_s1_p0.2.bax.h5
@@ -99,7 +93,7 @@ my_inputs.fofn contains files list of Pacbio H5 file in 01.data/
 run:
 ```bash
 $ fofnToSmrtpipeInput.py my_inputs.fofn > my_inputs.xml
-smrtpipe.py --params=settings.xml xml:input.xml
+$ smrtpipe.py --params=settings.xml xml:input.xml
 ```
 
 #### step 2 extract passes number from CCS h5 files

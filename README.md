@@ -74,6 +74,7 @@ setup_path='/path/PicBio/smrtanalysis/current/etc/setup.sh'
 #### step 1 extract CCS from h5 files
 Input:
 	- my_inputs.fofn
+
 Output:
 - log
 - data
@@ -103,6 +104,7 @@ smrtpipe.py --params=settings.xml xml:input.xml
 #### step 2 extract passes number from CCS h5 files
 Input:
 	- /data/*.ccs.h5 
+
 Output:
 	- ccs_passes.lst
 
@@ -115,13 +117,14 @@ $ python bin/ccs_passes.py  data/*.ccs.h5 >ccs_passes.lst
 Input:
 	- ccs_passes.lst
 	- data/reads_of_insert.fasta
+
 Output:
 	- ccs_passes_15.fa
 
 run:
 ```bash
 $ awk '$2>=15{print $1}' ccs_passes.lst >ccs_passes_15.lst
-perl ./bin/fish_ccs.pl ccs_passes_15.lst data/reads_of_insert.fasta >ccs_passes_15.fa
+$ perl ./bin/fish_ccs.pl ccs_passes_15.lst data/reads_of_insert.fasta >ccs_passes_15.fa
 ```
 #### step 4 assigning CCS  to samples by index
 Input:

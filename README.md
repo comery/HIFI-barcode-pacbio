@@ -26,7 +26,7 @@ Go to website https://github.com/comery/HIFI-barcode-hiseq and click 'Download Z
 #### (4) main perl and python scripts in bin/
  - 1.primer_like_extract.pl
  - 2.cluster_count_passes_length.pl
- - ccs_passes.py | copy from [here](https://github.com/PacificBiosciences/Bioinformatics-Training/raw/master/scripts/ccs_passes.py)
+ - ccs_passes.py | look => [here](https://github.com/PacificBiosciences/Bioinformatics-Training/wiki/Extracting-Reads-of-Insert-(CCS)-number-of-passes)| or directly download => [here](https://github.com/PacificBiosciences/Bioinformatics-Training/raw/master/scripts/ccs_passes.py)
  - fish_ccs.pl
 
 ### DATA requirements:

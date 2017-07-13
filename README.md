@@ -137,7 +137,7 @@ Output: "outdir" name is up to you, here default value is "02.assignment"
 
 run:
 ```bash
-$ perl ./bin/1.primer_like_extract.pl -p experiment_data/primer.fa -index experiment_data/index.xls -fa ccs_passes_15.fa -cm 2 -cg 1 -o outdir
+$ perl ./bin/1.primer_like_extract.pl -p experiment_data/primer.fa -index experiment_data/index.xls -fa ccs_passes_15.fa -cm 2 -cg 1 
 ```
 #### step 5 clustering CCS of each sample to find best one
 Input:

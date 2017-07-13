@@ -92,6 +92,7 @@ my_inputs.fofn contains files list of Pacbio H5 file in 01.data/, like this:
 
 run:
 ```bash
+$ source /path/PicBio/smrtanalysis/current/etc/setup.sh
 $ fofnToSmrtpipeInput.py my_inputs.fofn > my_inputs.xml
 $ smrtpipe.py --params=settings.xml xml:input.xml
 ```
@@ -103,7 +104,7 @@ Input:
 Output:
 - ccs_passes.lst
 
-run:
+run: in sure that you have run ```source /path/PicBio/smrtanalysis/current/etc/setup.sh```
 ```bash
 $ python bin/ccs_passes.py  data/*.ccs.h5 >ccs_passes.lst
 ```

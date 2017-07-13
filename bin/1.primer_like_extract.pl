@@ -30,7 +30,7 @@
 
 =head1 Usage
 	
-	perl $0  [option]
+	perl 1.primer_like_extract.pl  [option]
 	--p <str> primer string
 	--index <str> samples' index sequence
 	--fa <str> subject string

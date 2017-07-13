@@ -127,7 +127,7 @@ Input:
 - experiment_data/index.xls
 - ccs_passes_15.fa
 
-Output: "outdir" name is up to you, here is 02.assignment/
+Output: "outdir" name is up to you, here default value is "02.assignment"
 
 02.assignment/
 - assign.log.txt

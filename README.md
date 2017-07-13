@@ -153,7 +153,7 @@ Output:
 run:
 ```bash
 $ cd 02.assignment/
-$ perl ../bin/cluster_lens_count.pl -ccs ../ccs_passes_15.fa -pattern check.ccs_passes_15.fa.log -passes ccs_passes.lst
+$ perl ../bin/2.cluster_count_passes_length.pl -ccs ccs.successfully_assigned.fa -pattern check.ccs_passes_15.fa.log -passes ../ccs_passes.lst
 $ perl ../bin/change_name-location.pl cluster.top1.fas >hifi-barcode-pacbio.cluster.top1.fa
 ```
 

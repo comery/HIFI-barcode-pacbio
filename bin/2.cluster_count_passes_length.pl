@@ -35,7 +35,7 @@
 
 =head1 Exmple
 
-	perl cluster_lens_count.pl -ccs ccs.fa.out -pattern check.ccs.fa.log -passes ccs_passes.lst -min 652 -max 664 -c
+	perl 2.cluster_count_passes_length.pl -ccs ccs.successfully_assigned.fa -pattern check.ccs_passes_15.fa.log -passes ccs_passes.lst
 
 =cut
 
@@ -61,7 +61,7 @@ $codon ||= 5; # Invertebrate Mitochondrial
 $frame ||= 1; # COI 658bp barcode from second base to translate, now I didn't consider that condition indel occured before the start codon
 
 ## collecting primer location info------------------------------------------------
-open PA, "$pattern";
+open PA, "$pattern" or die "$!";
 my %check;
 $/="//";<PA>;$/="\n";
 while (<PA>) {
@@ -145,7 +145,7 @@ if (defined $check) {
 }
 
 ### reading passes number info-----
-open PS, "$passes";
+open PS, "$passes" or die "Can not open $passes!";
 my %pass;
 while (<PS>) {
 	chomp;

@@ -44,7 +44,7 @@
 =head1 Exmple
 
 	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa -o outdir  -log log_file &
-	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa --gap_punish 4 --m 2 -cm 4 -cg 2 -o dir  -log log_file
+	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa --gap_punish 4 --m 2 -cm 2 -cg 1 -o dir  -log log_file
 	
 	primer.txt may be like this:
 	
@@ -94,14 +94,26 @@ GetOptions(
 	"o:s" => \$outdir,
 	"help!" => \$help
 );
-$cutoff_mis ||= 2;
-$cutoff_gap ||= 1;
+# when $cutoff_mis == 0 or $cutoff_gap ==0
+if (defined $cutoff_mis) {
+	$cutoff_mis = $cutoff_mis;
+}else {
+	$cutoff_mis ||= 2;
+}
+
+if (defined $cutoff_gap) {
+	$cutoff_gap = $cutoff_gap;
+}else {
+	$cutoff_gap ||= 1;
+}
+print "$cutoff_mis\t$cutoff_gap\n";
+
 $gap_punishment ||= 2;
 $mis_match ||= 1;
 $outdir ||= "02.assignment";
 $log ||="check.$fa.log";
 die `pod2text $0` if (!($primer && $fa && $indexlst ) || $help);
-die "So embarrassing! cutoff_mis will be set to 2, and cutoff_mis will be 1 in spite you want 0" if ($cutoff_mis == 0 && $cutoff_gap ==0);
+
 
 `mkdir $outdir ` unless (-d $outdir);
 open QUE,"$primer";

@@ -94,18 +94,10 @@ GetOptions(
 	"o:s" => \$outdir,
 	"help!" => \$help
 );
-# when $cutoff_mis == 0 or $cutoff_gap ==0
-if (defined $cutoff_mis) {
-	$cutoff_mis = $cutoff_mis;
-}else {
-	$cutoff_mis ||= 2;
-}
 
-if (defined $cutoff_gap) {
-	$cutoff_gap = $cutoff_gap;
-}else {
-	$cutoff_gap ||= 1;
-}
+# when $cutoff_mis == 0 or $cutoff_gap ==0
+$cutoff_mis ||= 2 if (! defined $cutoff_mis);
+$cutoff_gap ||= 1 if (! defined $cutoff_gap);
 #print "$cutoff_mis\t$cutoff_gap\n";
 
 $gap_punishment ||= 2;

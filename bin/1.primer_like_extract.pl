@@ -30,7 +30,7 @@
 
 =head1 Usage
 	
-	perl 1.primer_like_extract.pl  [option]
+	perl $0  [option]
 	--p <str> primer string
 	--index <str> samples' index sequence
 	--fa <str> subject string
@@ -43,8 +43,8 @@
 
 =head1 Exmple
 
-	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa -o outdir  -log log_file &
-	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa --gap_punish 4 --m 2 -cm 2 -cg 1 -o dir  -log log_file
+	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa -o outdir  -log log_file 
+	perl ./1.primer_like_extract.pl --p primer.txt --index index.xls --fa ccs.fa --gap_punish 4 --m 2 -cm 2 -cg 1 -o dir  
 	
 	primer.txt may be like this:
 	
@@ -95,17 +95,14 @@ GetOptions(
 	"help!" => \$help
 );
 
-# when $cutoff_mis == 0 or $cutoff_gap ==0
-$cutoff_mis ||= 2 if (! defined $cutoff_mis);
-$cutoff_gap ||= 1 if (! defined $cutoff_gap);
-#print "$cutoff_mis\t$cutoff_gap\n";
+$cutoff_mis = 2 if (! defined $cutoff_mis);
+$cutoff_gap = 1 if (! defined $cutoff_gap);
 
 $gap_punishment ||= 2;
 $mis_match ||= 1;
 $outdir ||= "02.assignment";
 $log ||="check.$fa.log";
 die `pod2text $0` if (!($primer && $fa && $indexlst ) || $help);
-
 
 `mkdir $outdir ` unless (-d $outdir);
 open QUE,"$primer";
@@ -278,10 +275,7 @@ while (my $id = <OBJ>) {
 
 #	print "$id\t$mark{'1'}\t$mark{'3'},$mark{'2'}\t$mark{'4'}\n";
 	my ($remanet,$head,$tail);
-	if ($mark{'1'} + $mark{'3'} > 2 || $mark{'2'} + $mark{'4'} > 2) {
-		print LOG1 "$id has too many primer regions, maybe has chimera!\n"; ## error, more than one for primer or rev primer
-	
-	}elsif($mark{'1'} * $mark{'3'} >0 ) { # $mark{'1'} >0 && $mark{'3'} >0, means that there are at least one for-primer match and one rev-primer match
+	if ($mark{'1'} * $mark{'3'} >0 ) { # $mark{'1'} >0 && $mark{'3'} >0, means that there are at least one for-primer match and one rev-primer match
 		my $head_len = $border{'1'}-1;
 		$remanet = $TLEN - $border{'3'};
 		$head = substr($seq,0,$head_len);
@@ -297,22 +291,23 @@ while (my $id = <OBJ>) {
 		#	close OUT,
 		}
 		
+	#	print OUT ">$id\n$seq\n" ;
 	}elsif($mark{'2'} * $mark{'4'} > 0) { # $mark{'2'} >0 && $mark{'4'} >0
 		my $head_len = $border{'2'}-1;
 		$remanet = $TLEN - $border{'4'};
 		$head = substr($seq,0,$head_len);
 		$tail = substr($seq,$border{'4'},$remanet);
-		
 		if ($head_len< 4 || $remanet < 4 ) {
 			print LOG1 "$id can't be belonged to any sample! because of short index[<4bp]\n";
-		
 		}else {
+
 			my $num1 = &own3($head,$head_len);
 			my $num2 = &own4($tail,$remanet);
 			print LOG1 "$id\t$head\t$head_len\t$num1\t$tail\t$remanet\t$num2\n";
 			print OUT ">$id\t$num1\trev\n$seq\n" if ($num1 == $num2 && $num1 != 0 );
 		}
-
+	}elsif($mark{'1'} + $mark{'3'} > 2 || $mark{'2'} + $mark{'4'} > 2) {
+		print LOG1 "$id has too many primer regions!\n"; ## error, more than one for primer or rev primer
 	}else { ## no matches sastifying your cutoff
 		print LOG1 "$id no primer region under your cutoff\n";
 	}

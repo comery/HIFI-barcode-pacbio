@@ -35,7 +35,7 @@
 
 =head1 Exmple
 
-	perl 2.cluster_count_passes_length.pl -ccs ccs.successfully_assigned.fa -pattern check.ccs_passes_15.fa.log -passes ccs_passes.lst
+	perl 2.cluster_count_passes_length.pl -ccs ccs.fa.out -pattern check.ccs.fa.log -passes ccs_passes.lst 
 
 =cut
 
@@ -61,7 +61,7 @@ $codon ||= 5; # Invertebrate Mitochondrial
 $frame ||= 1; # COI 658bp barcode from second base to translate, now I didn't consider that condition indel occured before the start codon
 
 ## collecting primer location info------------------------------------------------
-open PA, "$pattern" or die "$!";
+open PA, "$pattern";
 my %check;
 $/="//";<PA>;$/="\n";
 while (<PA>) {
@@ -90,6 +90,7 @@ print LOG "sample_top\tcount/all_ccs_number\tlength\ttotal_passes_number\tccs_id
 
 my (%cluster,%cluster_id,%count,%seqs,$allseq,$err_codon);
 my $err_len = 0;
+
 ### trim primer region and keep target sequence(most are 658bp)
 open CCS,"$ccs" or die "Can not open $ccs!";
 $/=">";<CCS>;$/="\n";
@@ -107,18 +108,18 @@ while (my $cid=<CCS>) {
 	$seq = &trim_primer($seq,$check{$ccs_id}{'s'},$check{$ccs_id}{'e'});
 	$seqs{$ccs_id} = $seq;
 	my $l = length $seq;
-	print "$cid\t$l\n";
+
 	$allseq++;
 
-	my $judge = (defined $check ? &TranslateDNASeq($seq) : 0 );
-
-	if ($l >= $minL && $l <=$maxL){ # filtering by length;
+	my $judge = (defined $check ? (&TranslateDNASeq($seq) >= 0) : 0 );
+#	print "$judge\n";
+	if ($l>=$minL && $l<=$maxL){
 		
-		if ($judge) { # filtering by codon check if set.
+		if ($judge) {
+			print &TranslateDNASeq($seq)."\n";
 			print "$cid has stop condon!\n";
 			$err_codon ++ if (defined $check);
 		}else {
-			print "$cid has right codon\n";
 			$count{$sam} ++;
 			if ($ori eq "for") {
 				$cluster{$sam}{$seq} ++;
@@ -138,7 +139,7 @@ while (my $cid=<CCS>) {
 }
 
 if (defined $check) {
-	print "check codon model!\n";
+	print "chech codon model!\n";
 	print "total ccs:$allseq\n$err_len has wrong length\n$err_codon has wrong condon\n" ;
 }else {
 	print "do not check codon model!\n";
@@ -216,13 +217,13 @@ sub trim_primer {
 
 sub TranslateDNASeq
    {
-	use Bio::Seq;
-	(my $dna)=@_;
-	print "$dna\n";
-	my $seqobj=Bio::Seq->new(-seq =>$dna, -alphabet =>'dna');
-	my $prot_obj = $seqobj->translate(-codontable_id => $codon,-terminator => 'U',-unknown => '_',-frame => $frame);
-	my $pep = $prot_obj -> seq();
-	($pep =~ /U/ || $pep =~ /_/) ? return 1 : return 0;
+      use Bio::Seq;
+      (my $dna)=@_;
+      my $seqobj=Bio::Seq->new(-seq =>$dna, -alphabet =>'dna');
+      my $prot_obj = $seqobj->translate(-codontable_id => $codon,-terminator => 'U',-unknown => '_',-frame => $frame);
+      my $pep = $prot_obj -> seq();
+      my $stop_first = index($pep,"U");
+      return $stop_first;
    }
 
 sub total_pass {
@@ -231,4 +232,5 @@ sub total_pass {
 	foreach (@_) {
 		$t += $pass{$_};
 	}
+	return $t;
 }

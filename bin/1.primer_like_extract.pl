@@ -106,7 +106,7 @@ if (defined $cutoff_gap) {
 }else {
 	$cutoff_gap ||= 1;
 }
-print "$cutoff_mis\t$cutoff_gap\n";
+#print "$cutoff_mis\t$cutoff_gap\n";
 
 $gap_punishment ||= 2;
 $mis_match ||= 1;
@@ -286,7 +286,10 @@ while (my $id = <OBJ>) {
 
 #	print "$id\t$mark{'1'}\t$mark{'3'},$mark{'2'}\t$mark{'4'}\n";
 	my ($remanet,$head,$tail);
-	if ($mark{'1'} * $mark{'3'} >0 ) { # $mark{'1'} >0 && $mark{'3'} >0, means that there are at least one for-primer match and one rev-primer match
+	if ($mark{'1'} + $mark{'3'} > 2 || $mark{'2'} + $mark{'4'} > 2) {
+		print LOG1 "$id has too many primer regions, maybe has chimera!\n"; ## error, more than one for primer or rev primer
+	
+	}elsif($mark{'1'} * $mark{'3'} >0 ) { # $mark{'1'} >0 && $mark{'3'} >0, means that there are at least one for-primer match and one rev-primer match
 		my $head_len = $border{'1'}-1;
 		$remanet = $TLEN - $border{'3'};
 		$head = substr($seq,0,$head_len);
@@ -302,23 +305,22 @@ while (my $id = <OBJ>) {
 		#	close OUT,
 		}
 		
-	#	print OUT ">$id\n$seq\n" ;
 	}elsif($mark{'2'} * $mark{'4'} > 0) { # $mark{'2'} >0 && $mark{'4'} >0
 		my $head_len = $border{'2'}-1;
 		$remanet = $TLEN - $border{'4'};
 		$head = substr($seq,0,$head_len);
 		$tail = substr($seq,$border{'4'},$remanet);
+		
 		if ($head_len< 4 || $remanet < 4 ) {
 			print LOG1 "$id can't be belonged to any sample! because of short index[<4bp]\n";
+		
 		}else {
-
 			my $num1 = &own3($head,$head_len);
 			my $num2 = &own4($tail,$remanet);
 			print LOG1 "$id\t$head\t$head_len\t$num1\t$tail\t$remanet\t$num2\n";
 			print OUT ">$id\t$num1\trev\n$seq\n" if ($num1 == $num2 && $num1 != 0 );
 		}
-	}elsif($mark{'1'} + $mark{'3'} > 2 || $mark{'2'} + $mark{'4'} > 2) {
-		print LOG1 "$id has too many primer regions!\n"; ## error, more than one for primer or rev primer
+
 	}else { ## no matches sastifying your cutoff
 		print LOG1 "$id no primer region under your cutoff\n";
 	}

@@ -107,15 +107,14 @@ while (my $cid=<CCS>) {
 	$seq = &trim_primer($seq,$check{$ccs_id}{'s'},$check{$ccs_id}{'e'});
 	$seqs{$ccs_id} = $seq;
 	my $l = length $seq;
-
+	print "$cid\t$l\n";
 	$allseq++;
 
 	my $judge = (defined $check ? &TranslateDNASeq($seq) : 0 );
 
-	if ($l>=$minL && $l<=$maxL){ # filtering by length;
+	if ($l >= $minL && $l <=$maxL){ # filtering by length;
 		
 		if ($judge) { # filtering by codon check if set.
-			print &TranslateDNASeq($seq)."\n";
 			print "$cid has stop condon!\n";
 			$err_codon ++ if (defined $check);
 		}else {
@@ -217,13 +216,13 @@ sub trim_primer {
 
 sub TranslateDNASeq
    {
-      use Bio::Seq;
-      (my $dna)=@_;
-      my $seqobj=Bio::Seq->new(-seq =>$dna, -alphabet =>'dna');
-      my $prot_obj = $seqobj->translate(-codontable_id => $codon,-terminator => 'U',-unknown => '_',-frame => $frame);
-      my $pep = $prot_obj -> seq();
-	  print "$pep\n";
-      ($pep =~ /U/ || $pep =~ /_/) ? return 1 : return 0;
+	use Bio::Seq;
+	(my $dna)=@_;
+	print "$dna\n";
+	my $seqobj=Bio::Seq->new(-seq =>$dna, -alphabet =>'dna');
+	my $prot_obj = $seqobj->translate(-codontable_id => $codon,-terminator => 'U',-unknown => '_',-frame => $frame);
+	my $pep = $prot_obj -> seq();
+	($pep =~ /U/ || $pep =~ /_/) ? return 1 : return 0;
    }
 
 sub total_pass {
@@ -232,5 +231,4 @@ sub total_pass {
 	foreach (@_) {
 		$t += $pass{$_};
 	}
-	return $t;
 }

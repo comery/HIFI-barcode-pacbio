@@ -88,7 +88,8 @@ open LOG, ">cluster.id.txt";
 
 print LOG "sample_top\tcount/all_ccs_number\tlength\ttotal_passes_number\tccs_id_cluster\n";
 
-my (%cluster,%cluster_id,%count,%seqs,$err_len,$allseq,$err_codon);
+my (%cluster,%cluster_id,%count,%seqs,$allseq,$err_codon);
+my $err_len = 0;
 ### trim primer region and keep target sequence(most are 658bp)
 open CCS,"$ccs" or die "Can not open $ccs!";
 $/=">";<CCS>;$/="\n";
@@ -109,15 +110,16 @@ while (my $cid=<CCS>) {
 
 	$allseq++;
 
-	my $judge = (defined $check ? (&TranslateDNASeq($seq) >= 0) : 0 );
-#	print "$judge\n";
-	if ($l>=$minL && $l<=$maxL){
+	my $judge = (defined $check ? &TranslateDNASeq($seq) : 0 );
+
+	if ($l>=$minL && $l<=$maxL){ # filtering by length;
 		
-		if ($judge) {
+		if ($judge) { # filtering by codon check if set.
 			print &TranslateDNASeq($seq)."\n";
 			print "$cid has stop condon!\n";
 			$err_codon ++ if (defined $check);
 		}else {
+			print "$cid has right codon\n";
 			$count{$sam} ++;
 			if ($ori eq "for") {
 				$cluster{$sam}{$seq} ++;
@@ -137,7 +139,7 @@ while (my $cid=<CCS>) {
 }
 
 if (defined $check) {
-	print "chech codon model!\n";
+	print "check codon model!\n";
 	print "total ccs:$allseq\n$err_len has wrong length\n$err_codon has wrong condon\n" ;
 }else {
 	print "do not check codon model!\n";
@@ -220,8 +222,8 @@ sub TranslateDNASeq
       my $seqobj=Bio::Seq->new(-seq =>$dna, -alphabet =>'dna');
       my $prot_obj = $seqobj->translate(-codontable_id => $codon,-terminator => 'U',-unknown => '_',-frame => $frame);
       my $pep = $prot_obj -> seq();
-      my $stop_first = index($pep,"U");
-      return $stop_first;
+	  print "$pep\n";
+      ($pep =~ /U/ || $pep =~ /_/) ? return 1 : return 0;
    }
 
 sub total_pass {

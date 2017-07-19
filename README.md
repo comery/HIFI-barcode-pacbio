@@ -161,7 +161,10 @@ ALL DONE!
 	
 So, "hifi-barcode-pacbio.cluster.top1.fa" is final result!
 
--------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+### ACKNOWLEDGEMENT
+Thanks Hailin Pan for inspiring me about dynamic programming in script-"1.primer_like_extract.pl", I did learn much from that!
+
 ### CONTACT US
 
 Email:

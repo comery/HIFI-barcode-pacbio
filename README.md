@@ -171,7 +171,7 @@ Email:
 yangchentao at genomics dot cn
 
 ### CITATION
-Liu, Yang, Zhou, Zhou.(2017). Filling reference gaps via assembling DNA barcodes using high-throughput sequencing - moving toward to barcoding the world. Unpublished.
+Liu, Shanlin, Chentao Yang, Chengran Zhou, and Xin Zhou. "Filling reference gaps via assembling DNA barcodes using high-throughput sequencing–moving toward barcoding the world." GigaScience(2017).
 
 ### LATEST RELEASE
 Version 1.0 201707
